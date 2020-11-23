@@ -24,164 +24,164 @@ import org.junit.jupiter.api.Test;
 
 class CartTest {
 
-  @Test
-  void addItemWhenIsInStockIsTrue() {
-    // given
-    Cart cart = new Cart();
-    Item item = new Item();
-    item.setItemId("I01");
-    item.setListPrice(new BigDecimal("2.05"));
+	@Test
+	void addItemWhenIsInStockIsTrue() {
+		// given
+		Cart cart = new Cart();
+		Item item = new Item();
+		item.setItemId("I01");
+		item.setListPrice(new BigDecimal("2.05"));
 
-    // when
-    cart.addItem(item, true);
-    cart.addItem(item, true);
+		// when
+		cart.addItem(item, true);
+		cart.addItem(item, true);
 
-    // then
-    assertThat(cart.getCartItemList().get(0).getItem()).isSameAs(item);
-    assertThat(cart.getCartItemList().get(0).isInStock()).isTrue();
-    assertThat(cart.getCartItemList().get(0).getQuantity()).isEqualTo(2);
-    assertThat(cart.getCartItemList().get(0).getTotal()).isEqualTo(new BigDecimal("4.10"));
-    assertThat(cart.containsItemId("I01")).isTrue();
-    assertThat(cart.getNumberOfItems()).isEqualTo(1);
-    {
-      Iterator<CartItem> cartItems = cart.getCartItems();
-      assertThat(cartItems.next()).isNotNull();
-      assertThat(cartItems.hasNext()).isFalse();
-    }
-    {
-      Iterator<CartItem> cartItems = cart.getAllCartItems();
-      assertThat(cartItems.next()).isNotNull();
-      assertThat(cartItems.hasNext()).isFalse();
-    }
-  }
+		// then
+		assertThat(cart.getCartItemList().get(0).getItem()).isSameAs(item);
+		assertThat(cart.getCartItemList().get(0).isInStock()).isTrue();
+		assertThat(cart.getCartItemList().get(0).getQuantity()).isEqualTo(2);
+		assertThat(cart.getCartItemList().get(0).getTotal()).isEqualTo(new BigDecimal("4.10"));
+		assertThat(cart.containsItemId("I01")).isTrue();
+		assertThat(cart.getNumberOfItems()).isEqualTo(1);
+		{
+			Iterator<CartItem> cartItems = cart.getCartItems();
+			assertThat(cartItems.next()).isNotNull();
+			assertThat(cartItems.hasNext()).isFalse();
+		}
+		{
+			Iterator<CartItem> cartItems = cart.getAllCartItems();
+			assertThat(cartItems.next()).isNotNull();
+			assertThat(cartItems.hasNext()).isFalse();
+		}
+	}
 
-  @Test
-  void addItemWhenIsInStockIsFalse() {
-    // given
-    Cart cart = new Cart();
-    Item item = new Item();
-    item.setItemId("I01");
-    item.setListPrice(new BigDecimal("2.05"));
+	@Test
+	void addItemWhenIsInStockIsFalse() {
+		// given
+		Cart cart = new Cart();
+		Item item = new Item();
+		item.setItemId("I01");
+		item.setListPrice(new BigDecimal("2.05"));
 
-    // when
-    cart.addItem(item, false);
+		// when
+		cart.addItem(item, false);
 
-    // then
-    assertThat(cart.getCartItemList().get(0).getItem()).isSameAs(item);
-    assertThat(cart.getCartItemList().get(0).isInStock()).isFalse();
-    assertThat(cart.getCartItemList().get(0).getQuantity()).isEqualTo(1);
-    assertThat(cart.getCartItemList().get(0).getTotal()).isEqualTo(new BigDecimal("2.05"));
-  }
+		// then
+		assertThat(cart.getCartItemList().get(0).getItem()).isSameAs(item);
+		assertThat(cart.getCartItemList().get(0).isInStock()).isFalse();
+		assertThat(cart.getCartItemList().get(0).getQuantity()).isEqualTo(1);
+		assertThat(cart.getCartItemList().get(0).getTotal()).isEqualTo(new BigDecimal("2.05"));
+	}
 
-  @Test
-  void removeItemByIdWhenItemNotFound() {
-    // given
-    Cart cart = new Cart();
+	@Test
+	void removeItemByIdWhenItemNotFound() {
+		// given
+		Cart cart = new Cart();
 
-    // when
-    Item item = cart.removeItemById("I01");
+		// when
+		Item item = cart.removeItemById("I01");
 
-    // then
-    assertThat(item).isNull();
-    assertThat(cart.containsItemId("I01")).isFalse();
-    assertThat(cart.getNumberOfItems()).isEqualTo(0);
-    assertThat(cart.getCartItems().hasNext()).isFalse();
-    assertThat(cart.getAllCartItems().hasNext()).isFalse();
-  }
+		// then
+		assertThat(item).isNull();
+		assertThat(cart.containsItemId("I01")).isFalse();
+		assertThat(cart.getNumberOfItems()).isEqualTo(0);
+		assertThat(cart.getCartItems().hasNext()).isFalse();
+		assertThat(cart.getAllCartItems().hasNext()).isFalse();
+	}
 
-  @Test
-  void removeItemByIdWhenItemFound() {
-    // given
-    Cart cart = new Cart();
-    Item item = new Item();
-    item.setItemId("I01");
-    item.setListPrice(new BigDecimal("2.05"));
-    cart.addItem(item, true);
+	@Test
+	void removeItemByIdWhenItemFound() {
+		// given
+		Cart cart = new Cart();
+		Item item = new Item();
+		item.setItemId("I01");
+		item.setListPrice(new BigDecimal("2.05"));
+		cart.addItem(item, true);
 
-    // when
-    Item removedItem = cart.removeItemById("I01");
+		// when
+		Item removedItem = cart.removeItemById("I01");
 
-    // then
-    assertThat(removedItem).isSameAs(item);
-    assertThat(cart.getCartItemList()).isEmpty();
-  }
+		// then
+		assertThat(removedItem).isSameAs(item);
+		assertThat(cart.getCartItemList()).isEmpty();
+	}
 
-  @Test
-  void incrementQuantityByItemId() {
-    // given
-    Cart cart = new Cart();
-    Item item = new Item();
-    item.setItemId("I01");
-    item.setListPrice(new BigDecimal("2.05"));
-    cart.addItem(item, true);
+	@Test
+	void incrementQuantityByItemId() {
+		// given
+		Cart cart = new Cart();
+		Item item = new Item();
+		item.setItemId("I01");
+		item.setListPrice(new BigDecimal("2.05"));
+		cart.addItem(item, true);
 
-    // when
-    cart.incrementQuantityByItemId("I01");
-    cart.incrementQuantityByItemId("I01");
+		// when
+		cart.incrementQuantityByItemId("I01");
+		cart.incrementQuantityByItemId("I01");
 
-    // then
-    assertThat(cart.getCartItemList().get(0).getItem()).isSameAs(item);
-    assertThat(cart.getCartItemList().get(0).isInStock()).isTrue();
-    assertThat(cart.getCartItemList().get(0).getQuantity()).isEqualTo(3);
-    assertThat(cart.getCartItemList().get(0).getTotal()).isEqualTo(new BigDecimal("6.15"));
-  }
+		// then
+		assertThat(cart.getCartItemList().get(0).getItem()).isSameAs(item);
+		assertThat(cart.getCartItemList().get(0).isInStock()).isTrue();
+		assertThat(cart.getCartItemList().get(0).getQuantity()).isEqualTo(3);
+		assertThat(cart.getCartItemList().get(0).getTotal()).isEqualTo(new BigDecimal("6.15"));
+	}
 
-  @Test
-  void setQuantityByItemId() {
-    // given
-    Cart cart = new Cart();
-    Item item = new Item();
-    item.setItemId("I01");
-    item.setListPrice(new BigDecimal("2.05"));
-    cart.addItem(item, true);
+	@Test
+	void setQuantityByItemId() {
+		// given
+		Cart cart = new Cart();
+		Item item = new Item();
+		item.setItemId("I01");
+		item.setListPrice(new BigDecimal("2.05"));
+		cart.addItem(item, true);
 
-    // when
-    cart.setQuantityByItemId("I01", 10);
+		// when
+		cart.setQuantityByItemId("I01", 10);
 
-    // then
-    assertThat(cart.getCartItemList().get(0).getItem()).isSameAs(item);
-    assertThat(cart.getCartItemList().get(0).isInStock()).isTrue();
-    assertThat(cart.getCartItemList().get(0).getQuantity()).isEqualTo(10);
-    assertThat(cart.getCartItemList().get(0).getTotal()).isEqualTo(new BigDecimal("20.50"));
-  }
+		// then
+		assertThat(cart.getCartItemList().get(0).getItem()).isSameAs(item);
+		assertThat(cart.getCartItemList().get(0).isInStock()).isTrue();
+		assertThat(cart.getCartItemList().get(0).getQuantity()).isEqualTo(10);
+		assertThat(cart.getCartItemList().get(0).getTotal()).isEqualTo(new BigDecimal("20.50"));
+	}
 
-  @Test
-  void getSubTotalWhenItemIsEmpty() {
-    // given
-    Cart cart = new Cart();
+	@Test
+	void getSubTotalWhenItemIsEmpty() {
+		// given
+		Cart cart = new Cart();
 
-    // when
-    BigDecimal subTotal = cart.getSubTotal();
+		// when
+		BigDecimal subTotal = cart.getSubTotal();
 
-    // then
-    assertThat(subTotal).isEqualTo(BigDecimal.ZERO);
+		// then
+		assertThat(subTotal).isEqualTo(BigDecimal.ZERO);
 
-  }
+	}
 
-  @Test
-  void getSubTotalWhenItemIsExist() {
-    // given
-    Cart cart = new Cart();
-    {
-      Item item = new Item();
-      item.setItemId("I01");
-      item.setListPrice(new BigDecimal("2.05"));
-      cart.addItem(item, true);
-      cart.setQuantityByItemId("I01", 5);
-    }
-    {
-      Item item = new Item();
-      item.setItemId("I02");
-      item.setListPrice(new BigDecimal("3.06"));
-      cart.addItem(item, true);
-      cart.setQuantityByItemId("I02", 6);
-    }
+	@Test
+	void getSubTotalWhenItemIsExist() {
+		// given
+		Cart cart = new Cart();
+		{
+			Item item = new Item();
+			item.setItemId("I01");
+			item.setListPrice(new BigDecimal("2.05"));
+			cart.addItem(item, true);
+			cart.setQuantityByItemId("I01", 5);
+		}
+		{
+			Item item = new Item();
+			item.setItemId("I02");
+			item.setListPrice(new BigDecimal("3.06"));
+			cart.addItem(item, true);
+			cart.setQuantityByItemId("I02", 6);
+		}
 
-    // when
-    BigDecimal subTotal = cart.getSubTotal();
+		// when
+		BigDecimal subTotal = cart.getSubTotal();
 
-    // then
-    assertThat(subTotal).isEqualTo(new BigDecimal("28.61"));
-  }
+		// then
+		assertThat(subTotal).isEqualTo(new BigDecimal("28.61"));
+	}
 
 }

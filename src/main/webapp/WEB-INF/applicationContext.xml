@@ -33,10 +33,20 @@
         <jdbc:script location="classpath:database/jpetstore-hsqldb-schema.sql"/>
         <jdbc:script location="classpath:database/jpetstore-hsqldb-dataload.sql"/>
     </jdbc:embedded-database>
+    <!-- 迁移到MySQL数据库 -->
+	<bean id="dsMySQL"
+		class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName"
+			value="com.mysql.cj.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://127.0.0.1:3306/db_jpetstore?useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=GMT%2B8&amp;zeroDateTimeBehavior=convertToNull" />
+		<property name="username" value="test" />
+		<property name="password" value="bdqN$11_)5" />
+	</bean>
 
     <!-- transaction manager, use DataSourceTransactionManager" for JDBC local tx -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource" />
+        <property name="dataSource" ref="dsMySQL" />
     </bean>
 
     <!-- enable component scanning and autowire (beware that this does not enable mapper scanning!) -->
@@ -47,10 +57,17 @@
 
     <!-- define the SqlSessionFactory -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
+        <property name="dataSource" ref="dsMySQL" />
         <property name="typeAliasesPackage" value="org.mybatis.jpetstore.domain" />
     </bean>
 
     <!-- scan for mappers and let them be autowired -->
+    <!-- base-package 属性允许你设置映射器接口文件的基础包。通过使用逗号或分号分隔，
+    	你可以设置多个包。并且会在你所指定的包中递归搜索映射器
+    -->
+    <!-- 不需要为 <mybatis:scan/> 指定 SqlSessionFactory 或 SqlSessionTemplate，
+    	这是因为它将使用能够被自动注入的 MapperFactoryBean
+    	如果是多数据源可以使用factory-ref 或 template-ref 属性指定你想使用的 bean 名称
+    -->
     <mybatis:scan base-package="org.mybatis.jpetstore.mapper" />
 </beans>

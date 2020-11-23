@@ -15,7 +15,7 @@
  */
 package org.mybatis.jpetstore;
 
-import static com.codeborne.selenide.Browsers.CHROME;
+import static com.codeborne.selenide.Browsers.FIREFOX;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
@@ -52,7 +52,7 @@ class ScreenTransitionIT {
 
   @BeforeAll
   static void setupSelenide() {
-    browser = CHROME;
+    browser = FIREFOX;
     headless = true;
     timeout = TimeUnit.SECONDS.toMillis(10);
     baseUrl = "http://localhost:8080/jpetstore";
